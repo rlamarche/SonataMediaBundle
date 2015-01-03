@@ -241,6 +241,7 @@ class YouTubeProvider extends BaseVideoProvider
 
         try {
             $metadata = $this->getMetadata($media, $url);
+            $metadata['thumbnail_url'] = sprintf('http://img.youtube.com/vi/%s/maxresdefault.jpg', $media->getProviderReference());
         } catch (\RuntimeException $e) {
             $media->setEnabled(false);
             $media->setProviderStatus(MediaInterface::STATUS_ERROR);
