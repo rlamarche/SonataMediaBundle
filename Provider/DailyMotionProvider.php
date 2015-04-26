@@ -141,6 +141,16 @@ class DailyMotionProvider extends BaseVideoProvider
             return;
         }
 
+        $thumbnailUrl = sprintf('https://api.dailymotion.com/video/%s?fields=id,thumbnail_url,title', $media->getProviderReference());
+        try {
+            $thumbnailMetadata = $this->getMetadata($media, $thumbnailUrl);
+            $metadata['thumbnail_url'] = $thumbnailMetadata['thumbnail_url'];
+            unset($metadata['thumbnail_width']);
+            unset($metadata['thumbnail_height']);
+        } catch (\RuntimeException $e) {
+            // keep default thumbnail
+        }
+
         $media->setProviderMetadata($metadata);
 
         if ($force) {
